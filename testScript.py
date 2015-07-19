@@ -1,5 +1,9 @@
 execfile("GT_voxelated.py")
-Structure1 = clusterMethod1()
+All = allClusterBase()
+All.__isolateClusters__('testStructure.mat')
+All.__gatherClusters__(3)
+
+"""Structure1 = clusterMethod1()
 Structure1.loadStructure("./AB_clusters/test3.mat","cluster")
 Structure2 = clusterMethod1()
 Structure2.loadStructure("./AB_clusters/test4.mat","cluster")
@@ -14,5 +18,5 @@ Structure1.assignStepPara(1e-6, 1e6, 50, 1, 10)
 Structure1.assignIntphMat()
 Structure1.composeInput("test3")
 Structure1.runJob()
-Structure1.extractData()
+Structure1.extractData()"""
 

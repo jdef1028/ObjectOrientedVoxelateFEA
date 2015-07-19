@@ -24,13 +24,42 @@ class allClusterBase():
 			@return: None. But generate a folder with multiple .mat files
 			Developed on Jul. 14, 2015.
 			"""
-			
+		self.matfile = matfile
 		connectivity = 18 # select from [6, 18, 26] --> the number of neighboring pixels that are taken as connected
 		command = 'matlab -r "'+"cluster_iso('"+ str(matfile) + "',"+ str(connectivity) + ')"' +' -nojvm -nosplash -nodesktop'
 		os.system(command)
 		print "==========================================================\n"
 		print "==Clusters have been isolated into different .mat files!==\n"
 		print "==========================================================\n"
+		
+	def __gatherClusters__(self,IntphNum):
+		assert hasattr(self, 'matfile')
+		mat_list = []
+		print self.matfile[:-4] + '_clusters'
+		for roots, dirs, files in os.walk('./'+self.matfile[:-4]+'_clusters/'):
+			mat_list = files[1:]
+		print mat_list
+		file_num = len(mat_list)
+		clusterObjectList = []
+		for item in mat_list:
+			temp = clusterMethod1()
+			temp.loadStructure('./' + self.matfile[:-4]+'_clusters/'+item,'cluster')
+			temp.assignIntph(IntphNum)
+			clusterObjectList.append(temp)
+		
+		mainStructure = clusterObjectList[0]
+		for object in clusterObjectList[1:]:
+			mainStructure.add_cluster(object)
+		mainStructure.mergeIntph()
+		mainStructure.Coordinates(0.5)
+		mainStructure.assignFactors([4,3,2], [2.5, 2, 1.5], [2.5, 2, 1.5])
+		mainStructure.assignMatPara(8.9e-22, 0.0029831, 0.4, 1e-21, 0.0029831, 0.4, 1.89e-21, 0.02, 0.3, "S17S.txt")
+		mainStructure.assignStepPara(1e-6, 1e6, 50, 1, 10)
+		mainStructure.assignIntphMat()
+		mainStructure.composeInput("NewCode")
+		mainStructure.runJob()
+		mainStructure.extractData()
+		
 
 	def loadStructure(self, matfile, var_name):
 		""" loadStructure() is a public method that could be used for every 3D microstructure provided.
