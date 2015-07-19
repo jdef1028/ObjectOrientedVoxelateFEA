@@ -38,18 +38,23 @@ class allClusterBase():
 		print self.matfile[:-4] + '_clusters'
 		for roots, dirs, files in os.walk('./'+self.matfile[:-4]+'_clusters/'):
 			mat_list = files[1:]
-		print mat_list
+		#print mat_list
 		file_num = len(mat_list)
 		clusterObjectList = []
-		for item in mat_list:
-			temp = clusterMethod1()
-			temp.loadStructure('./' + self.matfile[:-4]+'_clusters/'+item,'cluster')
-			temp.assignIntph(IntphNum)
-			clusterObjectList.append(temp)
 		
-		mainStructure = clusterObjectList[0]
-		for object in clusterObjectList[1:]:
-			mainStructure.add_cluster(object)
+		mainStructure = clusterMethod1()
+		mainStructure.loadStructure('./' + self.matfile[:-4]+'_clusters/cluster_1.mat','cluster')
+		mainStructure.assignIntph(IntphNum)
+		for item in range(2,file_num+1):
+			temp = clusterMethod1()
+			temp.loadStructure('./' + self.matfile[:-4]+'_clusters/cluster_'+str(item)+'.mat','cluster')
+			temp.assignIntph(IntphNum)
+			mainStructure.add_cluster(temp)
+			
+		
+		#mainStructure = clusterObjectList[0]
+		#for object in clusterObjectList[1:]:
+			#mainStructure.add_cluster(object)
 		mainStructure.mergeIntph()
 		mainStructure.Coordinates(0.5)
 		mainStructure.assignFactors([4,3,2], [2.5, 2, 1.5], [2.5, 2, 1.5])
@@ -246,7 +251,7 @@ class individualClusterBase(allClusterBase):
 						for index in pop_list:
 							self.IntphImage[k][j][i].pop(index)
 
-		print self.IntphImage
+		#print self.IntphImage
 	
 	def __str__(self):
 		""" Temporary toString method for debugging """
@@ -272,7 +277,7 @@ class individualClusterBase(allClusterBase):
 		for item in label_list:
 			if item not in NoDup_list:
 				NoDup_list.append(item) 
-		print NoDup_list
+		NoDup_list.sort()
 		if 0 in NoDup_list:
 			#print "There are " + str(len(NoDup_list) - 2) + " Intph overlapping combinations."
 			#self.numLabel = len(NoDup_list) - 2
@@ -667,7 +672,7 @@ class clusterMethod1(individualClusterBase):
 												Image[z-1+k][y-1+j][x-1+i] = int(new_layer)
 			current_layer += 1
 			new_layer += 1
-		print Image
+		#print Image
 		self.IntphImage = Image
 		
 		
@@ -683,6 +688,6 @@ class clusterMethod1(individualClusterBase):
 			for y in range(Y):
 				for x in range(X):
 					self.IntphImage[z][y][x] = min([item for item in self.IntphImage[z][y][x]])
-		#print self.IntphImage
+		print self.IntphImage
 
 
