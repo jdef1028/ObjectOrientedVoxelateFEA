@@ -430,7 +430,7 @@ class individualClusterBase(allClusterBase):
 		InputFile.write('1.,\n')
 		for index in range(1, numLabel+1):
 			InputFile.write('** Section: Sec-INT-'+ str(index) +'\n')
-			InputFile.write('*Solid Section, elset=Set-INT-' +str(index) +', material=MAT-INTERPHASE-',+'str(index)+'\n')  ## first layer of interphase
+			InputFile.write('*Solid Section, elset=Set-INT-' +str(index) +', material=MAT-INTERPHASE-'+str(index)+'\n')  ## first layer of interphase
 			InputFile.write('1.,\n')
 #InputFile.write('** Section: Sec-INT-2\n')
 #InputFile.write('*Solid Section, elset=Set-INT-2, material=MAT-INTERPHASE-2\n')  ## second layer of interphase
