@@ -1,7 +1,7 @@
 execfile("GT_voxelated.py")
 All = allClusterBase()
-All.__isolateClusters__('testStructure.mat')
-All.__gatherClusters__(3)
+All.__isolateClusters__('fine.mat')
+All.__gatherClusters__(9)
 
 """Structure1 = clusterMethod1()
 Structure1.loadStructure("./AB_clusters/test3.mat","cluster")

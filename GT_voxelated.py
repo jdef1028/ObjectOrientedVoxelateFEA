@@ -45,7 +45,7 @@ class allClusterBase():
 		mainStructure = clusterMethod1()
 		mainStructure.loadStructure('./' + self.matfile[:-4]+'_clusters/cluster_1.mat','cluster')
 		mainStructure.assignIntph(IntphNum)
-		for item in range(2,file_num+1):
+		for item in range(2,file_num+2):
 			temp = clusterMethod1()
 			temp.loadStructure('./' + self.matfile[:-4]+'_clusters/cluster_'+str(item)+'.mat','cluster')
 			temp.assignIntph(IntphNum)
@@ -56,12 +56,12 @@ class allClusterBase():
 		#for object in clusterObjectList[1:]:
 			#mainStructure.add_cluster(object)
 		mainStructure.mergeIntph()
-		mainStructure.Coordinates(0.5)
-		mainStructure.assignFactors([4,3,2], [2.5, 2, 1.5], [2.5, 2, 1.5])
+		mainStructure.Coordinates(10.33/933)
+		mainStructure.assignFactors([6.8032, 4.8747, 3.4929, 2.5028, 1.7933, 1.2850, 0.9207, 0.6597, 0.4727], [3.5512, 2.8280, 2.3098, 1.9385, 1.6725, 1.4819, 1.3453,1.2474,1.1773], [3.5512, 2.8280, 2.3098, 1.9385, 1.6725, 1.4819, 1.3453,1.2474,1.1773])
 		mainStructure.assignMatPara(8.9e-22, 0.0029831, 0.4, 1e-21, 0.0029831, 0.4, 1.89e-21, 0.02, 0.3, "S17S.txt")
-		mainStructure.assignStepPara(1e-6, 1e6, 50, 1, 10)
+		mainStructure.assignStepPara(1e-6, 1e6, 30, 1, 15)
 		mainStructure.assignIntphMat()
-		mainStructure.composeInput("NewCode")
+		mainStructure.composeInput("FineGradient")
 		mainStructure.runJob()
 		mainStructure.extractData()
 		
@@ -290,7 +290,7 @@ class individualClusterBase(allClusterBase):
 	def assignFactors(self, R, BL, BR):
 		""" This function is to assign shifting"""
 		numLabel = self.countIntphLabel()
-		if (len(R) != numLabel) | (len(BL) != numLabel) | (len(BR) != numLabel):
+		if (len(R) < numLabel) | (len(BL) < numLabel) | (len(BR) < numLabel):
 			print "Input array dimension mismatch!"
 			sys.exit(0)
 		else:

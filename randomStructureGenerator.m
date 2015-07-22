@@ -8,5 +8,4 @@ while currentVF < VF
     Bimg_coarse(xs,ys,zs) = 1;
     currentVF = sum(Bimg_coarse(:))/size^3;
 end
-save('testStructure','Bimg_coarse');
-end
+save('fine.mat','Bimg_coarse')
